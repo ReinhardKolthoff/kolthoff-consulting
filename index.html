@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kolthoff Consulting | German Business Engineering</title>
+    <title>Kolthoff Consultancy | German Business Engineering</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
     <!-- Chosen Palette: Tech Innovation - A modern and sleek palette using light gray, dark charcoal, and a vibrant cyan accent for a tech-oriented feel. -->
-    <!-- Application Structure Plan: A single-page, top-down narrative structure was chosen for its intuitive user flow, ideal for a corporate profile. The user journey begins with a strong brand introduction (Hero), moves to the firm's purpose (About/Mission), details its offerings in an interactive tabbed section (Services) to encourage engagement, highlights its unique methodology (USP), showcases its core principles (Values), and ends with a clear call to action (Contact). This structure logically guides the user through the "who, why, what, how" of the consultancy, making the information digestible and compelling. -->
+    <!-- Application Structure Plan: A single-page, top-down narrative structure was chosen for its intuitive user flow, ideal for a corporate profile. The user journey begins with a strong brand introduction (Hero), moves to the firm's purpose (About/Mission), details the firm's offerings in an interactive tabbed section (Services) to encourage engagement, highlights its unique methodology (Approach), and ends with a clear call to action (Contact). This structure logically guides the user through the "who, why, what, how" of the consulting, making the information digestible and compelling. -->
     <!-- Visualization & Content Choices: 
         - Report Info: Services List -> Goal: Organize/Inform -> Viz: Interactive Tabs -> Interaction: Click to reveal service details -> Justification: Prevents a long, static list and encourages user exploration. -> Method: JS event listeners toggling visibility.
         - Report Info: USP & Values -> Goal: Inform -> Viz: Styled Cards -> Interaction: Hover effects -> Justification: Breaks down key information into visually distinct, easily digestible blocks. -> Method: HTML/Tailwind CSS.
@@ -44,7 +44,7 @@
     <header class="bg-gray-50/80 backdrop-blur-lg sticky top-0 z-50">
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
             <a href="#" class="text-2xl font-extrabold text-gray-900 flex items-center">
-                <span class="text-cyan-600">K</span>olthoff <span class="font-medium text-gray-700 ml-1">Consulting</span>
+                <span class="text-cyan-600">K</span>olthoff <span class="font-medium text-gray-700 ml-1">Consultancy</span>
             </a>
             <div class="hidden md:flex items-center space-x-8">
                 <a href="#about" class="nav-link text-gray-600">About Us</a>
@@ -94,7 +94,7 @@
                     </div>
                     <div class="bg-white p-8 rounded-lg shadow-sm">
                         <h3 class="text-xl font-bold text-cyan-600 mb-3">Our Vision</h3>
-                        <p class="text-gray-600">To be the leading consulting partner for startups and SMEs seeking to optimize their operations, foster innovation, and scale efficiently, recognized globally for our commitment to excellence, integrity, and the transformative impact of our German engineering approach.</p>
+                        <p class="text-gray-600">To be the leading consultancy partner for startups and SMEs seeking to optimize their operations, foster innovation, and scale efficiently, recognized globally for our commitment to excellence, integrity, and the transformative impact of our German engineering approach.</p>
                     </div>
                 </div>
             </div>
@@ -114,6 +114,7 @@
                     <button data-tab="4" class="service-tab font-semibold border-2 border-gray-200 rounded-full px-4 py-2 text-sm md:text-base transition-all duration-300">Digital Transformation</button>
                     <button data-tab="5" class="service-tab font-semibold border-2 border-gray-200 rounded-full px-4 py-2 text-sm md:text-base transition-all duration-300">Organizational Design</button>
                     <button data-tab="6" class="service-tab font-semibold border-2 border-gray-200 rounded-full px-4 py-2 text-sm md:text-base transition-all duration-300">Cost Reduction</button>
+                    <button data-tab="7" class="service-tab font-semibold border-2 border-gray-200 rounded-full px-4 py-2 text-sm md:text-base transition-all duration-300">Strategic HR</button>
                 </div>
 
                 <div id="service-content" class="mt-8 bg-gray-50 p-8 rounded-lg min-h-[250px] transition-all duration-300">
@@ -136,10 +137,15 @@
                     <div id="tab-5-content" class="service-content-panel hidden fade-in">
                         <h3 class="font-bold text-xl mb-2 text-cyan-600">Organizational Design & Change Management</h3>
                         <p class="text-gray-600">Structuring organizations for optimal operational flow and accountability. Facilitating smooth transitions during periods of significant operational change. Developing performance metrics and KPIs.</p>
+                    </p>
                     </div>
                     <div id="tab-6-content" class="service-content-panel hidden fade-in">
                         <h3 class="font-bold text-xl mb-2 text-cyan-600">Cost Reduction & Efficiency Programs</h3>
                         <p class="text-gray-600">Identification of cost drivers within operations. Development and implementation of strategies for sustainable cost savings. Benchmarking operational performance against industry best practices.</p>
+                    </div>
+                    <div id="tab-7-content" class="service-content-panel hidden fade-in">
+                        <h3 class="font-bold text-xl mb-2 text-cyan-600">Strategic HR & Talent Management</h3>
+                        <p class="text-gray-600">Crafting and implementing forward-thinking HR strategies that align with business objectives to attract, develop, and retain high-performing talent. This includes optimizing recruitment, performance management, compensation structures, and fostering a dynamic workplace culture, ensuring your human capital drives sustainable growth and innovation.</p>
                     </div>
                 </div>
             </div>
@@ -175,12 +181,12 @@
         <footer id="contact" class="bg-gray-900 text-white py-20">
             <div class="container mx-auto px-6 text-center">
                 <h2 class="text-3xl font-bold">Ready for Operational Excellence?</h2>
-                <p class="mt-4 text-gray-300 max-w-xl mx-auto">Let's discuss how Kolthoff Consulting can elevate your business to the next level.</p>
+                <p class="mt-4 text-gray-300 max-w-xl mx-auto">Let's discuss how Kolthoff Consultancy can elevate your business to the next level.</p>
                 <div class="mt-8">
-                    <a href="mailto:reinhardkolthoff@gmail.com" class="bg-cyan-600 text-white font-bold py-3 px-8 rounded-lg text-lg hover:bg-cyan-700 transition-colors duration-300">Get in Touch</a>
+                    <a href="mailto:contact@kolthoff-consultancy.com" class="bg-cyan-600 text-white font-bold py-3 px-8 rounded-lg text-lg hover:bg-cyan-700 transition-colors duration-300">Get in Touch</a>
                 </div>
                 <div class="mt-12 text-gray-400 text-sm">
-                    <p>&copy; 2025 Kolthoff Consulting. All rights reserved.</p>
+                    <p>&copy; 2025 Kolthoff Consultancy. All rights reserved.</p>
                     <p class="mt-2">Engineering Your Path to Operational Excellence.</p>
                 </div>
             </div>
