@@ -1,448 +1,325 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kolthoff Consultancy | German Business Engineering</title>
+    <title>Kolthoff Consultancy - German Business Engineering for Operational Excellence</title>
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
-    <!-- Chosen Palette: Tech Innovation - A modern and sleek palette using light gray, dark charcoal, and a vibrant cyan accent for a tech-oriented feel. -->
-    <!-- Application Structure Plan: A single-page, top-down narrative structure was chosen for its intuitive user flow, ideal for a corporate profile. The user journey begins with a strong brand introduction (Hero), moves to the firm's purpose (About/Mission), introduces Reinhard Kolthoff's professional profile (My Profile), details the firm's offerings in an interactive tabbed section (Services) to encourage engagement, highlights its unique methodology (Approach), and ends with a clear call to action (Contact). This structure logically guides the user through the "who, why, what, how" of the consulting, making the information digestible and compelling. -->
-    <!-- Visualization & Content Choices: 
-        - Report Info: Services List -> Goal: Organize/Inform -> Viz: Interactive Tabs -> Interaction: Click to reveal service details -> Justification: Prevents a long, static list and encourages user exploration. -> Method: JS event listeners toggling visibility.
-        - Report Info: USP & Values -> Goal: Inform -> Viz: Styled Cards -> Interaction: Hover effects -> Justification: Breaks down key information into visually distinct, easily digestible blocks. -> Method: HTML/Tailwind CSS.
-        - Report Info: Resume Work History -> Goal: Change/Organize -> Viz/Presentation Method: Interactive Vertical Timeline -> Interaction: Click to expand/collapse job details -> Justification: Visually represents career progression and makes dense information highly scannable and engaging. -> Library/Method: Vanilla JS & Tailwind CSS.
-        - Report Info: Resume Skills -> Goal: Organize -> Viz/Presentation Method: Categorized Cards -> Interaction: Hover effects -> Justification: Breaks down skills into digestible thematic groups, improving readability over a single list. -> Library/Method: HTML & Tailwind CSS Grid.
-    -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <!-- Google Fonts - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* Light Slate */
+            color: #334155; /* Slate 700 */
         }
-        .nav-link {
-            transition: color 0.3s ease;
+        .container {
+            max-width: 1200px;
         }
-        .nav-link:hover {
-            color: #06B6D4; /* cyan-500 */
-        }
-        .service-tab.active {
-            background-color: #06B6D4; /* cyan-500 */
-            color: white;
-            border-color: #06B6D4; /* cyan-500 */
-        }
-        .fade-in {
-            animation: fadeIn 0.5s ease-in-out;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        /* Resume specific styles */
-        .timeline-item .timeline-dot {
-            position: absolute;
-            left: -33px;
-            top: 12px;
-            height: 18px;
-            width: 18px;
+        /* Custom styles for subtle shadows and rounded corners */
+        .card {
             background-color: white;
-            border: 4px solid #1E3A8A; /* blue-900 */
-            border-radius: 50%;
-            z-index: 10;
+            border-radius: 0.75rem; /* rounded-xl */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* shadow-md */
         }
-        .timeline-item:before {
-            content: '';
-            position: absolute;
-            left: -25px;
-            top: 12px;
-            bottom: -12px;
-            width: 2px;
-            background-color: #D1D5DB; /* gray-300 */
+        .btn-primary {
+            background-color: #1e3a8a; /* Dark Blue */
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem; /* rounded-lg */
+            font-weight: 600;
+            transition: background-color 0.3s ease;
         }
-        .timeline-item:last-child:before {
-            display: none;
+        .btn-primary:hover {
+            background-color: #1e40af; /* Slightly lighter blue on hover */
         }
-        .job-details {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.5s ease-in-out;
+        .btn-secondary {
+            background-color: transparent;
+            color: #1e3a8a; /* Dark Blue */
+            border: 2px solid #1e3a8a;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem; /* rounded-lg */
+            font-weight: 600;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
-        .job-details.open {
-            max-height: 1000px; /* Adjust as needed */
+        .btn-secondary:hover {
+            background-color: #1e3a8a;
+            color: white;
         }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-900">
+<body class="antialiased">
 
-    <header class="bg-gray-50/80 backdrop-blur-lg sticky top-0 z-50">
-        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="#" class="text-2xl font-extrabold text-gray-900 flex items-center">
-                <span class="text-cyan-600">K</span>olthoff <span class="font-medium text-gray-700 ml-1">Consultancy</span>
-            </a>
-            <div class="hidden md:flex items-center space-x-8">
-                <a href="#about" class="nav-link text-gray-600">About Us</a>
-                <a href="#reinhard-profile" class="nav-link text-gray-600">My Profile</a>
-                <a href="#services" class="nav-link text-gray-600">Services</a>
-                <a href="#approach" class="nav-link text-gray-600">Approach</a>
-                <a href="#contact" class="nav-link text-gray-600 bg-cyan-600 text-white px-4 py-2 rounded-md hover:bg-cyan-700 hover:text-white transition-colors duration-300">Contact</a>
-            </div>
-            <button id="mobile-menu-button" class="md:hidden text-gray-800">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
-                </svg>
-            </button>
-        </nav>
-        <div id="mobile-menu" class="hidden md:hidden bg-white shadow-lg">
-            <a href="#about" class="block text-center py-2 px-4 text-gray-600 hover:bg-gray-100">About Us</a>
-            <a href="#reinhard-profile" class="block text-center py-2 px-4 text-gray-600 hover:bg-gray-100">My Profile</a>
-            <a href="#services" class="block text-center py-2 px-4 text-gray-600 hover:bg-gray-100">Services</a>
-            <a href="#approach" class="block text-center py-2 px-4 text-gray-600 hover:bg-gray-100">Approach</a>
-            <a href="#contact" class="block text-center py-2 px-4 text-gray-600 hover:bg-gray-100">Contact</a>
+    <!-- Header Section -->
+    <header class="bg-white shadow-sm py-4">
+        <div class="container mx-auto px-4 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold text-gray-900">Kolthoff Consultancy</a>
+            <nav>
+                <ul class="flex space-x-6">
+                    <li><a href="#services" class="text-gray-600 hover:text-gray-900 font-medium">Services</a></li>
+                    <li><a href="#operational-excellence" class="text-gray-600 hover:text-gray-900 font-medium">Operational Excellence</a></li>
+                    <li><a href="#about" class="text-gray-600 hover:text-gray-900 font-medium">About Us</a></li>
+                    <li><a href="#testimonials" class="text-gray-600 hover:text-gray-900 font-medium">Insights</a></li>
+                    <li><a href="#contact" class="text-gray-600 hover:text-gray-900 font-medium">Contact</a></li>
+                </ul>
+            </nav>
         </div>
     </header>
 
-    <main>
-        <section id="hero" class="py-20 md:py-32 bg-white">
-            <div class="container mx-auto px-6 text-center">
-                <h1 class="text-4xl md:text-6xl font-extrabold text-gray-900 leading-tight">
-                    German Business Engineering
-                </h1>
-                <p class="mt-4 text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
-                    Operational Excellence as a Service for Startups and SMEs. We transform operational challenges into strategic advantages.
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-r from-blue-700 to-indigo-900 text-white py-20 md:py-32">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-6">
+                German Business Engineering for <br class="hidden md:inline"> Operational Excellence
+            </h1>
+            <p class="text-lg md:text-xl mb-8 max-w-3xl mx-auto">
+                Empowering startups and SMEs to achieve sustainable growth through precision, efficiency, and methodological rigor.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+                <a href="#contact" class="btn-primary">Get a Free Consultation</a>
+                <a href="#services" class="btn-secondary text-white border-white hover:bg-white hover:text-blue-700">Explore Our Services</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mission/Vision Section -->
+    <section class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-12">
+            <div class="card p-8">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Our Mission</h2>
+                <p class="text-gray-700 leading-relaxed">
+                    To empower startups and SMEs to achieve sustainable growth by transforming operational challenges into strategic advantages, leveraging the precision, efficiency, and methodological rigor of German engineering.
                 </p>
-                <div class="mt-8">
-                    <a href="#services" class="bg-cyan-600 text-white font-bold py-3 px-8 rounded-lg text-lg hover:bg-cyan-700 transition-colors duration-300">Discover Our Solutions</a>
+            </div>
+            <div class="card p-8">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Our Vision</h2>
+                <p class="text-gray-700 leading-relaxed">
+                    To be a leading consultancy partner globally, recognized for excellence, integrity, and the transformative impact of our German engineering approach on operational resilience and business success.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-16 md:py-24 bg-white">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-4xl font-extrabold text-gray-900 mb-12">Our Core Services</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Service 1 -->
+                <div class="card p-6 text-left">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Process Optimization & Lean Management</h3>
+                    <p class="text-gray-600">Streamlining workflows, eliminating waste, and enhancing efficiency to boost productivity and reduce operational costs.</p>
+                </div>
+                <!-- Service 2 -->
+                <div class="card p-6 text-left">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Quality Management Systems (QMS) Implementation</h3>
+                    <p class="text-gray-600">Developing and integrating robust QMS frameworks (e.g., ISO standards) to ensure consistent quality and compliance.</p>
+                </div>
+                <!-- Service 3 -->
+                <div class="card p-6 text-left">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Supply Chain & Logistics Optimization</h3>
+                    <p class="text-gray-600">Optimizing end-to-end supply chain processes for improved flow, reduced lead times, and enhanced cost-effectiveness.</p>
+                </div>
+                <!-- Service 4 -->
+                <div class="card p-6 text-left">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Digital Transformation Strategy (Operations Focus)</h3>
+                    <p class="text-gray-600">Guiding the adoption of cutting-edge technologies like automation, data analytics, and AI to revolutionize operational capabilities and drive innovation.</p>
+                </div>
+                <!-- Service 5 -->
+                <div class="card p-6 text-left">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Organizational Design & Change Management</h3>
+                    <p class="text-gray-600">Structuring organizations for optimal performance and managing transitions smoothly to ensure successful adoption of new processes.</p>
+                </div>
+                <!-- Service 6 -->
+                <div class="card p-6 text-left">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Cost Reduction & Efficiency Programs</h3>
+                    <p class="text-gray-600">Implementing strategic initiatives to identify and eliminate unnecessary expenditures while maximizing operational output.</p>
+                </div>
+                <!-- The following service has been removed as per your request.
+                <div class="card p-6 text-left">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Strategic HR & Talent Management</h3>
+                    <p class="text-gray-600">Aligning human capital strategies with business goals to foster a high-performing culture and optimize talent utilization.</p>
+                </div>
+                -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Operational Excellence as a Service Section -->
+    <section id="operational-excellence" class="py-16 md:py-24 bg-gray-50">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-4xl font-extrabold text-gray-900 mb-12">Operational Excellence as a Service</h2>
+            <p class="text-lg text-gray-700 max-w-3xl mx-auto mb-10">
+                Beyond one-off projects, we offer a unique "Operational Excellence as a Service" model designed for continuous improvement and sustained growth. This flexible, ongoing partnership ensures your operations remain agile, efficient, and aligned with your strategic objectives.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="card p-6 text-left">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Continuous Performance Monitoring</h3>
+                    <p class="text-gray-600">We implement dashboards and KPIs to track your operational health in real-time, identifying bottlenecks and opportunities for improvement proactively.</p>
+                </div>
+                <div class="card p-6 text-left">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Regular Strategic Reviews</h3>
+                    <p class="text-gray-600">Periodic reviews ensure your operational strategies adapt to market changes and business growth, maintaining competitive advantage.</p>
+                </div>
+                <div class="card p-6 text-left">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Access to Expert Guidance</h3>
+                    <p class="text-gray-600">Benefit from ongoing access to our seasoned consultants for ad-hoc advice, problem-solving, and strategic insights.</p>
+                </div>
+                <div class="card p-6 text-left">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Adaptive Solution Deployment</h3>
+                    <p class="text-gray-600">We help you quickly integrate new tools, processes, or technologies as your business evolves, ensuring seamless transitions.</p>
                 </div>
             </div>
-        </section>
+            <p class="text-lg text-gray-700 max-w-3xl mx-auto mt-10">
+                This service is ideal for businesses seeking long-term operational resilience without the overhead of a full-time in-house team.
+            </p>
+        </div>
+    </section>
 
-        <section id="about" class="py-20">
-            <div class="container mx-auto px-6">
-                <div class="text-center mb-12">
-                    <h2 class="text-3xl font-bold text-gray-900">Excellence Through Method</h2>
-                    <p class="mt-2 text-gray-600 max-w-2xl mx-auto">Our mission is to empower startups and SMEs to achieve sustainable growth through the precision, efficiency, and methodological rigor of German engineering.</p>
+    <!-- About Us Section -->
+    <section id="about" class="py-16 md:py-24 bg-white">
+        <div class="container mx-auto px-4 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div class="order-2 lg:order-1">
+                <h2 class="text-4xl font-extrabold text-gray-900 mb-6">About Reinhard Kolthoff</h2>
+                <p class="text-lg text-gray-700 leading-relaxed mb-6">
+                    Reinhard Kolthoff is a highly accomplished Business Transformation & Operational Excellence Leader with over 20 years of extensive experience. His career is marked by a deep commitment to driving efficiency, fostering innovation, and delivering measurable results across diverse industries.
+                </p>
+                <ul class="list-disc list-inside text-gray-700 space-y-2 mb-6">
+                    <li><strong>Strategic & Growth Management:</strong> Crafting and executing strategies for sustainable business expansion.</li>
+                    <li><strong>Operational Excellence & Process Innovation:</strong> Implementing Lean, Six Sigma, and other methodologies to optimize processes.</li>
+                    <li><strong>Project & Program Leadership:</strong> Successfully leading complex projects from conception to completion.</li>
+                    <li><strong>Data-Driven Decision-Making & Analytics:</strong> Leveraging insights to inform strategic choices and improve performance.</li>
+                </ul>
+                <p class="text-lg text-gray-700 leading-relaxed mb-6">
+                    Reinhard holds a Diplom Ingenieur in Naval Architecture and Maritime Engineering from the University of Applied Science - Bremen, Germany (2008). Based in Taytay, Rizal, Philippines, he brings a global perspective combined with local understanding to every engagement.
+                </p>
+            </div>
+            <div class="order-1 lg:order-2 flex justify-center">
+                <img src="2025-05-30.jpg" alt="Reinhard Kolthoff" class="rounded-full shadow-lg w-64 h-64 md:w-80 md:h-80 object-cover">
+            </div>
+        </div>
+    </section>
+
+    <!-- Unique Approach Section -->
+    <section class="py-16 md:py-24 bg-gray-50">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-4xl font-extrabold text-gray-900 mb-12">Our Unique Approach: German Business Engineering</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="card p-6">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Engineering Precision</h3>
+                    <p class="text-gray-600">Systematic, analytical, and data-driven methodologies ensure solutions are robust, repeatable, and yield predictable results.</p>
                 </div>
-                <div class="grid md:grid-cols-2 gap-12 items-center">
-                    <div class="bg-white p-8 rounded-lg shadow-sm">
-                        <h3 class="text-xl font-bold text-cyan-600 mb-3">Our Mission</h3>
-                        <p class="text-gray-600">To empower startups and Small and Medium-sized Enterprises (SMEs) to achieve unparalleled operational excellence and sustainable growth by leveraging the precision, efficiency, and methodological rigor of German business engineering principles. We aim to transform operational challenges into strategic advantages, enabling our clients to compete effectively and thrive in dynamic markets.</p>
-                    </div>
-                    <div class="bg-white p-8 rounded-lg shadow-sm">
-                        <h3 class="text-xl font-bold text-cyan-600 mb-3">Our Vision</h3>
-                        <p class="text-gray-600">To be the leading consultancy partner for startups and SMEs seeking to optimize their operations, foster innovation, and scale efficiently, recognized globally for our commitment to excellence, integrity, and the transformative impact of our German engineering approach.</p>
-                    </div>
+                <div class="card p-6">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Tailored for SMEs & Startups</h3>
+                    <p class="text-gray-600">Flexible engagement models and practical solutions designed to fit the unique challenges and resources of growing businesses.</p>
+                </div>
+                <div class="card p-6">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Measurable Impact</h3>
+                    <p class="text-gray-600">Focus on delivering tangible outcomes that translate directly into improved efficiency, cost savings, and sustainable growth.</p>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Reinhard Kolthoff's Integrated Profile Section -->
-        <section id="reinhard-profile" class="py-20 bg-gray-100">
-            <div class="container mx-auto px-6">
-                <div class="text-center mb-12">
-                    <h2 class="text-3xl font-bold text-gray-900">Meet Reinhard Kolthoff</h2>
-                    <p class="mt-2 text-gray-600 max-w-2xl mx-auto">Discover Reinhard's expertise and professional journey, showcasing a proven track record in driving operational excellence and business transformation.</p>
+    <!-- Testimonials/Case Studies Section (Placeholder) -->
+    <section id="testimonials" class="py-16 md:py-24 bg-white">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-4xl font-extrabold text-gray-900 mb-12">Client Success Stories & Insights</h2>
+            <p class="text-lg text-gray-700 max-w-3xl mx-auto mb-10">
+                We believe in showcasing the real impact of our work. Here's what our clients say, and a glimpse into our thought leadership.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+                <!-- Placeholder Testimonial 1 -->
+                <div class="card p-6 text-left">
+                    <p class="text-gray-700 italic mb-4">"Kolthoff Consultancy transformed our supply chain. We saw a 20% reduction in lead times and significant cost savings within months. Their methodical approach is truly exceptional."</p>
+                    <p class="font-semibold text-gray-800">- CEO, Manufacturing Startup</p>
                 </div>
-                
-                <div class="bg-white p-8 rounded-lg shadow-sm mb-12 flex flex-col md:flex-row items-center md:items-start">
-                    <div class="flex-shrink-0 mb-6 md:mb-0 md:mr-8">
-                        <img src="2025-05-30.jpg" alt="Reinhard Kolthoff Profile Picture" class="w-32 h-32 rounded-full object-cover shadow-lg">
-                    </div>
-                    <div class="flex-grow text-center md:text-left">
-                        <h3 class="text-xl font-bold text-cyan-600 mb-4">Professional Summary</h3>
-                        <p class="text-gray-700 leading-relaxed">A visionary Business Transformation & Operational Excellence Leader with over 20 years of experience, specializing in applying rigorous German Business Engineering principles to drive significant improvements for startups and SMEs. Proven expertise in orchestrating complex digital transformations, optimizing operational efficiencies, and implementing data-driven strategies that consistently yield substantial growth, cost reduction, and enhanced organizational resilience. Adept at cultivating high-performance cultures and guiding organizations through strategic change to achieve peak performance.</p>
-                    </div>
-                </div>
-
-                <div class="bg-white p-8 rounded-lg shadow-sm mb-12">
-                    <h4 class="text-lg font-semibold text-gray-800 mb-3">Skills & Expertise</h4>
-                    <div class="mt-4 grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                        <div class="bg-gray-50 p-4 rounded-lg shadow-sm">
-                            <h5 class="font-bold text-md text-blue-800 mb-1">Strategic & Growth Management</h5>
-                            <p class="text-xs text-gray-600">P&L Oversight, Strategic Planning & Execution, Business Development, Organizational Restructuring, Change Management, Market Entry & Expansion, Vendor & Stakeholder Management</p>
-                        </div>
-                        <div class="bg-gray-50 p-4 rounded-lg shadow-sm">
-                            <h5 class="font-bold text-md text-blue-800 mb-1">Operational Excellence & Process Innovation</h5>
-                            <p class="text-xs text-gray-600">Process Engineering & Optimization, Lean Methodologies (5S, Kaizen), Continuous Improvement (CI), Quality Management Systems (QMS), Workflow Automation, Supply Chain Optimization, Efficiency Enhancement</p>
-                        </div>
-                        <div class="bg-gray-50 p-4 rounded-lg shadow-sm">
-                            <h5 class="font-bold text-md text-blue-800 mb-1">Project & Program Leadership</h5>
-                            <p class="text-xs text-gray-600">End-to-End Project Management, Large-Scale Program Implementation, Cross-functional Team Leadership, Technology Solutions Integration (ERP, BI, IoT), Risk Management & Mitigation, Mentorship & Capability Building</p>
-                        </div>
-                        <div class="bg-gray-50 p-4 rounded-lg shadow-sm">
-                            <h5 class="font-bold text-md text-blue-800 mb-1">Data-Driven Decision Making & Analytics</h5>
-                            <p class="text-xs text-gray-600">Advanced Analytical Skills, Business Intelligence (BI) Strategy & Implementation, Data Integration & Streamlining, Predictive Analysis, Problem Solving, Root Cause Analysis, Performance Metric Development</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="bg-white p-8 rounded-lg shadow-sm">
-                    <h3 class="text-xl font-bold text-cyan-600 mb-4">Professional Experience</h3>
-                    <p class="mt-2 text-md max-w-3xl text-gray-600">An interactive timeline of my career progression. Click on any role to see the detailed responsibilities and achievements.</p>
-                    <div id="timeline-container" class="mt-8 ml-8">
-                        <!-- Timeline items will be injected here by JavaScript -->
-                    </div>
-                </div>
-
-                <div class="grid md:grid-cols-2 gap-8 mt-12">
-                    <div class="bg-white p-8 rounded-lg shadow-sm">
-                        <h3 class="text-xl font-bold text-cyan-600 mb-4">Education</h3>
-                        <div class="bg-gray-50 p-6 rounded-lg shadow-md">
-                            <h4 class="font-bold text-lg text-blue-800">Diplom Ingenieur: Naval Architecture And Maritime Engineering</h4>
-                            <p class="text-gray-600 mt-1">University of Applied Science - Bremen, Germany</p>
-                            <p class="text-sm text-gray-500 mt-1">Graduated 2008</p>
-                        </div>
-                    </div>
-
-                    <div class="bg-white p-8 rounded-lg shadow-sm">
-                        <h3 class="text-xl font-bold text-cyan-600 mb-4">Contact Details</h3>
-                        <p class="mb-2"><strong>Location:</strong> Taytay, Rizal, Philippines</p>
-                        <p class="mb-2"><strong>Phone:</strong> +63 927 960 8982</p>
-                        <p><strong>Email:</strong> reinhardkolthoff@gmail.com</p>
-                        <a href="https://www.linkedin.com/in/reinhard-kolthoff-47b0a2174/" target="_blank" rel="noopener noreferrer" class="mt-4 inline-block w-full text-center bg-blue-900 text-white px-4 py-3 rounded-md hover:bg-blue-800 transition-colors font-semibold">
-                            Connect on LinkedIn
-                        </a>
-                    </div>
+                <!-- Placeholder Testimonial 2 -->
+                <div class="card p-6 text-left">
+                    <p class="text-gray-700 italic mb-4">"Reinhard's expertise in process optimization helped us scale our operations efficiently. The 'Operational Excellence as a Service' model provides invaluable ongoing support."</p>
+                    <p class="font-semibold text-gray-800">- Founder, Tech SME</p>
                 </div>
             </div>
-        </section>
 
-        <section id="services" class="py-20 bg-white">
-            <div class="container mx-auto px-6">
-                <div class="text-center mb-12">
-                    <h2 class="text-3xl font-bold text-gray-900">Our Service Areas</h2>
-                    <p class="mt-2 text-gray-600 max-w-2xl mx-auto">We offer a comprehensive suite of services tailored to elevate operational performance across various business functions. Select an area to learn more.</p>
+            <h3 class="text-3xl font-bold text-gray-800 mb-8">Our Latest Insights</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Blog Post/Insight 1 -->
+                <div class="card p-6 text-left">
+                    <img src="https://placehold.co/300x200/E5E7EB/4B5563?text=Blog+Image+1" alt="Blog Post Image" class="rounded-lg mb-4 w-full h-48 object-cover">
+                    <h4 class="text-xl font-semibold text-gray-800 mb-2">The Power of Lean in Startup Growth</h4>
+                    <p class="text-gray-600 text-sm mb-3">Learn how Lean principles can accelerate your startup's efficiency and market readiness.</p>
+                    <a href="#" class="text-blue-700 hover:underline font-medium text-sm">Read More &rarr;</a>
                 </div>
-
-                <div class="flex flex-wrap justify-center gap-2 md:gap-4 mb-8">
-                    <button data-tab="1" class="service-tab active font-semibold border-2 border-gray-200 rounded-full px-4 py-2 text-sm md:text-base transition-all duration-300">Process Optimization</button>
-                    <button data-tab="2" class="service-tab font-semibold border-2 border-gray-200 rounded-full px-4 py-2 text-sm md:text-base transition-all duration-300">Quality Management</button>
-                    <button data-tab="3" class="service-tab font-semibold border-2 border-gray-200 rounded-full px-4 py-2 text-sm md:text-base transition-all duration-300">Supply Chain</button>
-                    <button data-tab="4" class="service-tab font-semibold border-2 border-gray-200 rounded-full px-4 py-2 text-sm md:text-base transition-all duration-300">Digital Transformation</button>
-                    <button data-tab="5" class="service-tab font-semibold border-2 border-gray-200 rounded-full px-4 py-2 text-sm md:text-base transition-all duration-300">Organizational Design</button>
-                    <button data-tab="6" class="service-tab font-semibold border-2 border-gray-200 rounded-full px-4 py-2 text-sm md:text-base transition-all duration-300">Cost Reduction</button>
-                    <button data-tab="7" class="service-tab font-semibold border-2 border-gray-200 rounded-full px-4 py-2 text-sm md:text-base transition-all duration-300">Strategic HR</button>
+                <!-- Blog Post/Insight 2 -->
+                <div class="card p-6 text-left">
+                    <img src="https://placehold.co/300x200/E5E7EB/4B5563?text=Blog+Image+2" alt="Blog Post Image" class="rounded-lg mb-4 w-full h-48 object-cover">
+                    <h4 class="text-xl font-semibold text-gray-800 mb-2">Navigating Digital Transformation for SMEs</h4>
+                    <p class="text-gray-600 text-sm mb-3">Key strategies for small and medium enterprises to successfully embrace digital change.</p>
+                    <a href="#" class="text-blue-700 hover:underline font-medium text-sm">Read More &rarr;</a>
                 </div>
-
-                <div id="service-content" class="mt-8 bg-gray-50 p-8 rounded-lg min-h-[250px] transition-all duration-300">
-                    <div id="tab-1-content" class="service-content-panel fade-in">
-                        <h3 class="font-bold text-xl mb-2 text-cyan-600">Process Optimization & Lean Management</h3>
-                        <p class="text-gray-600">End-to-end analysis and redesign of core business processes. Implementation of Lean methodologies (e.g., Value Stream Mapping, 5S, Kaizen) to eliminate waste and enhance flow. Automation strategy and execution.</p>
-                    </div>
-                    <div id="tab-2-content" class="service-content-panel hidden fade-in">
-                        <h3 class="font-bold text-xl mb-2 text-cyan-600">Quality Management Systems (QMS) Implementation</h3>
-                        <p class="text-gray-600">Design and deployment of robust QMS frameworks (e.g., ISO 9001 readiness). Quality control and assurance methodologies. Defect reduction and continuous quality improvement programs.</p>
-                    </div>
-                    <div id="tab-3-content" class="service-content-panel hidden fade-in">
-                        <h3 class="font-bold text-xl mb-2 text-cyan-600">Supply Chain & Logistics Optimization</h3>
-                        <p class="text-gray-600">Streamlining supply chain processes for efficiency and resilience. Inventory management and forecasting. Logistics network design and optimization.</p>
-                    </div>
-                    <div id="tab-4-content" class="service-content-panel hidden fade-in">
-                        <h3 class="font-bold text-xl mb-2 text-cyan-600">Digital Transformation Strategy (Operations Focus)</h3>
-                        <p class="text-gray-600">Assessment of current digital capabilities and identification of gaps. Roadmap development for technology adoption to enhance operational efficiency (e.g., ERP, CRM, IoT integration). Data analytics for operational insights and predictive maintenance.</p>
-                    </div>
-                    <div id="tab-5-content" class="service-content-panel hidden fade-in">
-                        <h3 class="font-bold text-xl mb-2 text-cyan-600">Organizational Design & Change Management</h3>
-                        <p class="text-gray-600">Structuring organizations for optimal operational flow and accountability. Facilitating smooth transitions during periods of significant operational change. Developing performance metrics and KPIs.</p>
-                    </div>
-                    <div id="tab-6-content" class="service-content-panel hidden fade-in">
-                        <h3 class="font-bold text-xl mb-2 text-cyan-600">Cost Reduction & Efficiency Programs</h3>
-                        <p class="text-gray-600">Identification of cost drivers within operations. Development and implementation of strategies for sustainable cost savings. Benchmarking operational performance against industry best practices.</p>
-                    </div>
-                    <div id="tab-7-content" class="service-content-panel hidden fade-in">
-                        <h3 class="font-bold text-xl mb-2 text-cyan-600">Strategic HR & Talent Management</h3>
-                        <p class="text-gray-600">Crafting and implementing forward-thinking HR strategies that align with business objectives to attract, develop, and retain high-performing talent. This includes optimizing recruitment, performance management, compensation structures, and fostering a dynamic workplace culture, ensuring your human capital drives sustainable growth and innovation.</p>
-                    </div>
+                <!-- Blog Post/Insight 3 -->
+                <div class="card p-6 text-left">
+                    <img src="https://placehold.co/300x200/E5E7EB/4B5563?text=Blog+Image+3" alt="Blog Post Image" class="rounded-lg mb-4 w-full h-48 object-cover">
+                    <h4 class="text-xl font-semibold text-gray-800 mb-2">Why German Engineering Principles Matter in Business</h4>
+                    <p class="text-gray-600 text-sm mb-3">Discover the core tenets that make German engineering a benchmark for operational excellence.</p>
+                    <a href="#" class="text-blue-700 hover:underline font-medium text-sm">Read More &rarr;</a>
                 </div>
             </div>
-        </section>
+            <p class="text-center mt-10">
+                <a href="#" class="btn-primary">View All Insights</a>
+            </p>
+        </div>
+    </section>
 
-        <section id="approach" class="py-20">
-            <div class="container mx-auto px-6">
-                <div class="text-center mb-12">
-                    <h2 class="text-3xl font-bold text-gray-900">Our Unique Approach</h2>
-                    <p class="mt-2 text-gray-600 max-w-2xl mx-auto">Our core differentiator lies in the application of German Business Engineering principles.</p>
-                </div>
-                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-                    <div class="bg-white p-6 rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-300">
-                        <h3 class="font-bold text-lg mb-2 text-gray-800">Engineering Precision</h3>
-                        <p class="text-sm text-gray-600">A systematic, analytical, and data-driven methodology that identifies root causes and implements robust, sustainable solutions.</p>
-                    </div>
-                    <div class="bg-white p-6 rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-300">
-                        <h3 class="font-bold text-lg mb-2 text-gray-800">Operational Excellence as a Service</h3>
-                        <p class="text-sm text-gray-600">Flexible engagement models designed for the agility and financial realities of startups and SMEs.</p>
-                    </div>
-                    <div class="bg-white p-6 rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-300">
-                        <h3 class="font-bold text-lg mb-2 text-gray-800">Practical Solutions</h3>
-                        <p class="text-sm text-gray-600">We don't just provide recommendations; we partner with you to ensure practical implementation and measurable impact.</p>
-                    </div>
-                    <div class="bg-white p-6 rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-300">
-                        <h3 class="font-bold text-lg mb-2 text-gray-800">Focus on Sustainability</h3>
-                        <p class="text-sm text-gray-600">Our solutions are designed not just for immediate gains but for long-term operational resilience.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
+    <!-- Contact Section -->
+    <section id="contact" class="py-16 md:py-24 bg-gray-100">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-4xl font-extrabold text-gray-900 mb-12">Let's Elevate Your Operations</h2>
+            <p class="text-lg text-gray-700 max-w-3xl mx-auto mb-10">
+                Ready to transform your operational challenges into strategic advantages? Get in touch with Reinhard Kolthoff today to discuss how German Business Engineering can drive your sustainable growth.
+            </p>
 
-        <footer id="contact" class="bg-gray-900 text-white py-20">
-            <div class="container mx-auto px-6 text-center">
-                <h2 class="text-3xl font-bold">Ready for Operational Excellence?</h2>
-                <p class="mt-4 text-gray-300 max-w-xl mx-auto">Let's discuss how Kolthoff Consultancy can elevate your business to the next level.</p>
-                <div class="mt-8">
-                    <a href="mailto:reinhardkolthoff@gmail.com" class="bg-cyan-600 text-white font-bold py-3 px-8 rounded-lg text-lg hover:bg-cyan-700 transition-colors duration-300">Get in Touch</a>
-                </div>
-                <div class="mt-12 text-gray-400 text-sm">
-                    <p>&copy; 2025 Kolthoff Consultancy. All rights reserved.</p>
-                    <p class="mt-2">Engineering Your Path to Operational Excellence.</p>
+            <div class="max-w-xl mx-auto card p-8">
+                <form class="space-y-6">
+                    <div>
+                        <label for="name" class="block text-left text-sm font-medium text-gray-700 mb-1">Your Name</label>
+                        <input type="text" id="name" name="name" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="John Doe">
+                    </div>
+                    <div>
+                        <label for="email" class="block text-left text-sm font-medium text-gray-700 mb-1">Your Email</label>
+                        <input type="email" id="email" name="email" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="you@example.com">
+                    </div>
+                    <div>
+                        <label for="message" class="block text-left text-sm font-medium text-gray-700 mb-1">Your Message</label>
+                        <textarea id="message" name="message" rows="5" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="Tell us about your operational challenges..."></textarea>
+                    </div>
+                    <div>
+                        <button type="submit" class="btn-primary w-full">Send Message</button>
+                    </div>
+                </form>
+                <div class="mt-8 text-center text-gray-700">
+                    <p class="mb-2">Or connect directly:</p>
+                    <p class="font-semibold text-lg">+63 927 960 8982</p>
+                    <p class="font-semibold text-lg">reinhardkolthoff@gmail.com</p>
+                    <p class="mt-4">Based in Taytay, Rizal, Philippines</p>
                 </div>
             </div>
-        </footer>
-    </main>
+        </div>
+    </section>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const mobileMenuButton = document.getElementById('mobile-menu-button');
-            const mobileMenu = document.getElementById('mobile-menu');
-            mobileMenuButton.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
-            });
+    <!-- Footer Section -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-4 text-center">
+            <p>&copy; 2025 Kolthoff Consultancy. All rights reserved.</p>
+            <div class="flex justify-center space-x-6 mt-4">
+                <!-- Placeholder for social media links -->
+                <a href="#" class="text-gray-400 hover:text-white">LinkedIn</a>
+                <a href="#" class="text-gray-400 hover:text-white">Facebook</a>
+            </div>
+        </div>
+    </footer>
 
-            const serviceTabs = document.querySelectorAll('.service-tab');
-            const serviceContentPanels = document.querySelectorAll('.service-content-panel');
-
-            serviceTabs.forEach(tab => {
-                tab.addEventListener('click', () => {
-                    const tabNumber = tab.getAttribute('data-tab');
-
-                    serviceTabs.forEach(t => t.classList.remove('active'));
-                    tab.classList.add('active');
-
-                    serviceContentPanels.forEach(panel => {
-                        panel.classList.add('hidden');
-                    });
-                    
-                    const targetPanel = document.getElementById(`tab-${tabNumber}-content`);
-                    if (targetPanel) {
-                        targetPanel.classList.remove('hidden');
-                    }
-                });
-            });
-
-            // Experience data for the interactive timeline
-            const experienceData = [
-                {
-                    role: "Business Transformation Manager & Executive Assistant to Country Manager",
-                    company: "Mineski Philippines",
-                    location: "San Juan, Metro Manila, Philippines",
-                    period: "October 2023 – January 2025",
-                    details: [
-                        "Streamlined core office processes and integrated advanced organizational tools, <strong>enhancing overall office efficiency and achieving measurable productivity gains.</strong>",
-                        "Provided critical, informed assistance to the Country Manager in strategic planning by <strong>continuously deepening understanding of company offerings and market dynamics.</strong>",
-                        "Conducted in-depth market research to <strong>identify and evaluate high-potential business opportunities</strong>, guiding strategic expansion into new industries and regions.",
-                        "Coordinated comprehensive logistical support for product launches and promotional events, ensuring <strong>successful market penetration and heightened brand visibility.</strong>"
-                    ]
-                },
-                {
-                    role: "Head of Project Management",
-                    company: "Mineski Philippines",
-                    location: "San Juan, Metro Manila, Philippines",
-                    period: "January 2023 – October 2023",
-                    details: [
-                        "Mentored and guided junior project managers in best practices, <strong>cultivating a high-performance culture and significantly enhancing team capabilities and project success rates.</strong>",
-                        "Enforced stringent adherence to established guidelines and industry best practices, <strong>ensuring consistent high-quality standards across all projects.</strong>",
-                        "Developed comprehensive project plans outlining scope, budget, timeline, and deliverables, driving <strong>successful project execution from initiation to closure.</strong>",
-                        "Established and implemented a robust risk management framework, <strong>proactively anticipating and mitigating potential challenges</strong> to ensure project continuity."
-                    ]
-                },
-                {
-                    role: "Business Transformation Manager",
-                    company: "Mineski Global",
-                    location: "San Juan, Metro Manila, Philippines",
-                    period: "January 2022 – January 2023",
-                    details: [
-                         "Formulated and executed bespoke business growth strategies, <strong>guiding clients from initial design through successful implementation and sustained impact.</strong>",
-                         "Directed cross-functional project teams in the successful <strong>implementation of technology solutions, directly aligning with and achieving key business objectives.</strong>",
-                         "Applied principles of change management, organizational design, and business process improvement to <strong>stimulate market interest and attract untapped demographics.</strong>",
-                         "Recommended and implemented practical, data-driven business process solutions in direct collaboration with stakeholders, resulting in <strong>significant customer expansion and increased revenue generation.</strong>"
-                    ]
-                },
-                {
-                    role: "Business Intelligence Manager",
-                    company: "Mineski Global",
-                    location: "San Juan, Metro Manila, Philippines",
-                    period: "March 2019 – January 2022",
-                    details: [
-                        "Championed a data-driven culture across the organization by <strong>effectively promoting and facilitating the adoption of business intelligence tools.</strong>",
-                        "Streamlined complex data integration processes, leading to <strong>improved efficiency and accuracy in critical business intelligence reporting.</strong>",
-                        "Orchestrated seamless migration efforts from legacy BI systems to modern cloud-based platforms, <strong>minimizing downtime and ensuring smooth user transition and adoption.</strong>",
-                        "Provided extensive training and ongoing support to business users, <strong>significantly increasing the adoption and effective utilization of self-service BI tools.</strong>"
-                    ]
-                },
-                {
-                    role: "Head of Quality",
-                    company: "Mineski Franchise Corporation",
-                    location: "Quezon City, Metro Manila, Philippines",
-                    period: "June 2016 – March 2019",
-                    details: [
-                        "<strong>Increased customer satisfaction</strong> by implementing timely responses to inquiries, thorough issue investigation, and effective corrective action plans.",
-                        "<strong>Reduced operational waste</strong> and <strong>optimized manufacturing processes</strong>, leading to significant increases in overall production efficiency while maintaining high-quality output.",
-                        "Evaluated vendor performance through routine, rigorous assessments, providing <strong>strategic recommendations for adjustments or replacements</strong> to maintain optimal supply chain relationships.",
-                        "Developed and deployed comprehensive training programs for new hires, resulting in <strong>increased efficiency and knowledge retention</strong> among staff members."
-                    ]
-                },
-                {
-                    role: "Technologist",
-                    company: "Meyer Werft",
-                    location: "Papenburg, Germany",
-                    period: "September 2002 – April 2016",
-                    details: [
-                        "Conducted comprehensive system analysis to <strong>identify areas for operational improvement</strong>, leading to streamlined operations and notable cost reductions.",
-                        "<strong>Enhanced workflow efficiency</strong> by automating repetitive tasks and optimizing overall processes.",
-                        "Established a culture of <strong>continuous learning and professional development</strong> within the technology team, significantly enhancing overall skills and capabilities."
-                    ]
-                }
-            ];
-
-            const timelineContainer = document.getElementById('timeline-container');
-            experienceData.forEach(job => {
-                const jobElement = document.createElement('div');
-                jobElement.className = 'timeline-item relative border-l-2 border-slate-200 pb-8';
-
-                let detailsHTML = job.details.map(detail => `<li class="mb-2">${detail}</li>`).join('');
-
-                jobElement.innerHTML = `
-                    <div class="timeline-dot"></div>
-                    <div class="ml-8">
-                        <div class="job-header cursor-pointer group">
-                            <h3 class="text-xl font-bold text-slate-900 group-hover:text-blue-900 transition-colors">${job.role}</h3>
-                            <p class="font-semibold text-blue-900">${job.company}</p>
-                            <p class="text-sm text-slate-500">${job.period} | ${job.location}</p>
-                        </div>
-                        <div class="job-details">
-                            <ul class="mt-4 list-disc pl-5 text-slate-600">
-                                ${detailsHTML}
-                            </ul>
-                        </div>
-                    </div>
-                `;
-                timelineContainer.appendChild(jobElement);
-            });
-
-            timelineContainer.addEventListener('click', function(e) {
-                const header = e.target.closest('.job-header');
-                if (header) {
-                    const details = header.nextElementSibling;
-                    details.classList.toggle('open');
-                }
-            });
-
-            // Automatically open the first timeline item
-            const firstJobDetails = timelineContainer.querySelector('.job-details');
-            if(firstJobDetails) {
-                firstJobDetails.classList.add('open');
-            }
-
-        });
-    </script>
 </body>
 </html>
