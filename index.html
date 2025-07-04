@@ -1,9 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="scroll-behavior: smooth;">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kolthoff Consultancy - German Business Engineering for Operational Excellence</title>
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Kolthoff Consultancy offers German Business Engineering for operational excellence, empowering startups and SMEs with precision, efficiency, and measurable impact for sustainable growth.">
+    <meta name="keywords" content="Kolthoff Consultancy, German Business Engineering, Operational Excellence, SME consulting, startup consulting, business efficiency, process optimization, quality assurance, supply chain, digitalization, change leadership, profitability, Reinhard Kolthoff">
+    <meta name="author" content="Kolthoff Consultancy">
+
+    <!-- Favicon -->
+    <link rel="icon" href="https://placehold.co/32x32/1e3a8a/ffffff?text=KC" type="image/x-icon">
+
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts - Inter -->
@@ -29,10 +37,11 @@
             padding: 0.75rem 1.5rem;
             border-radius: 0.5rem; /* rounded-lg */
             font-weight: 600;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s ease, transform 0.2s ease; /* Added transform for hover effect */
         }
         .btn-primary:hover {
             background-color: #1e40af; /* Slightly lighter blue on hover */
+            transform: translateY(-2px); /* Subtle lift effect */
         }
         .btn-secondary {
             background-color: transparent;
@@ -41,11 +50,23 @@
             padding: 0.75rem 1.5rem;
             border-radius: 0.5rem; /* rounded-lg */
             font-weight: 600;
-            transition: background-color 0.3s ease, color 0.3s ease;
+            transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease; /* Added transform for hover effect */
         }
         .btn-secondary:hover {
             background-color: #1e3a8a;
             color: white;
+            transform: translateY(-2px); /* Subtle lift effect */
+        }
+
+        /* Animation for sections */
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
         }
     </style>
 </head>
@@ -54,8 +75,8 @@
     <!-- Header Section -->
     <header class="bg-white shadow-sm py-4">
         <div class="container mx-auto px-4 flex justify-between items-center">
-            <a href="#" class="text-2xl font-bold text-gray-900"><span class="text-blue-700">K</span>olthoff Consultancy</a>
-            <nav class="hidden md:block"> <!-- Hide on small screens, show on medium and up -->
+            <a href="#home" class="text-2xl font-bold text-gray-900" aria-label="Kolthoff Consultancy Home"><span class="text-blue-700">K</span>olthoff Consultancy</a>
+            <nav class="hidden md:block" aria-label="Main Navigation"> <!-- Hide on small screens, show on medium and up -->
                 <ul class="flex space-x-6">
                     <li><a href="#home" class="text-gray-600 hover:text-gray-900 font-medium">Home</a></li>
                     <li><a href="#about" class="text-gray-600 hover:text-gray-900 font-medium">About Us</a></li>
@@ -64,32 +85,32 @@
                     <li><a href="#contact-form-section" class="text-gray-600 hover:text-gray-900 font-medium">Contact</a></li>
                 </ul>
             </nav>
-            <a href="#contact-form-section" class="btn-primary hidden md:inline-block">Request a Consultation</a>
+            <a href="#contact-form-section" class="btn-primary hidden md:inline-block" role="button">Request a Consultation</a>
             <!-- Mobile Menu Button (Hamburger Icon) -->
-            <button id="mobile-menu-button" class="md:hidden text-gray-600 hover:text-gray-900 focus:outline-none">
+            <button id="mobile-menu-button" class="md:hidden text-gray-600 hover:text-gray-900 focus:outline-none" aria-label="Open Mobile Menu">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
             </button>
         </div>
         <!-- Mobile Menu Overlay -->
-        <div id="mobile-menu" class="hidden md:hidden fixed inset-0 bg-white z-50 p-4">
+        <div id="mobile-menu" class="hidden md:hidden fixed inset-0 bg-white z-50 p-4" role="dialog" aria-modal="true" aria-label="Mobile Menu">
             <div class="flex justify-end">
-                <button id="close-mobile-menu" class="text-gray-600 hover:text-gray-900 focus:outline-none">
+                <button id="close-mobile-menu" class="text-gray-600 hover:text-gray-900 focus:outline-none" aria-label="Close Mobile Menu">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                 </button>
             </div>
-            <ul class="flex flex-col space-y-4 mt-8 text-center">
-                <li><a href="#home" class="text-gray-800 text-xl font-medium block py-2">Home</a></li>
-                <li><a href="#about" class="text-gray-800 text-xl font-medium block py-2">About Us</a></li>
-                <li><a href="#services" class="text-gray-800 text-xl font-medium block py-2">Services</a></li>
-                <li><a href="#insights" class="text-gray-800 text-xl font-medium block py-2">Insights</a></li>
-                <li><a href="#contact-form-section" class="text-gray-800 text-xl font-medium block py-2">Contact</a></li>
-                <li><a href="#contact-form-section" class="btn-primary mt-4 block mx-auto w-fit">Request a Consultation</a></li>
+            <ul class="flex flex-col space-y-4 mt-8 text-center" role="menu">
+                <li><a href="#home" class="text-gray-800 text-xl font-medium block py-2" role="menuitem">Home</a></li>
+                <li><a href="#about" class="text-gray-800 text-xl font-medium block py-2" role="menuitem">About Us</a></li>
+                <li><a href="#services" class="text-gray-800 text-xl font-medium block py-2" role="menuitem">Services</a></li>
+                <li><a href="#insights" class="text-gray-800 text-xl font-medium block py-2" role="menuitem">Insights</a></li>
+                <li><a href="#contact-form-section" class="text-gray-800 text-xl font-medium block py-2" role="menuitem">Contact</a></li>
+                <li><a href="#contact-form-section" class="btn-primary mt-4 block mx-auto w-fit" role="button">Request a Consultation</a></li>
             </ul>
         </div>
     </header>
 
     <!-- Hero Section -->
-    <section id="home" class="bg-gradient-to-r from-blue-700 to-indigo-900 text-white py-20 md:py-32">
+    <section id="home" class="bg-gradient-to-r from-blue-700 to-indigo-900 text-white py-20 md:py-32 fade-in-section">
         <div class="container mx-auto px-4 text-center">
             <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-6">
                 German Business Engineering for <br class="hidden md:inline"> Operational Excellence
@@ -98,8 +119,8 @@
                 Empowering Startups and SMEs to achieve sustainable growth through precision, efficiency, and methodological rigor.
             </p>
             <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-                <a href="#contact-form-section" class="btn-primary">Get a Free Consultation</a>
-                <a href="#services" class="btn-secondary text-white border-white hover:bg-white hover:text-blue-700">Explore Our Services</a>
+                <a href="#contact-form-section" class="btn-primary" role="button">Get a Free Consultation</a>
+                <a href="#services" class="btn-secondary text-white border-white hover:bg-white hover:text-blue-700" role="button">Explore Our Services</a>
             </div>
             <!-- Optional: Trust indicators -->
             <div class="mt-12 text-gray-200 text-sm italic">
@@ -109,7 +130,7 @@
     </section>
 
     <!-- Introduction/Problem-Solution Section -->
-    <section class="py-16 md:py-24 bg-white">
+    <section class="py-16 md:py-24 bg-white fade-in-section">
         <div class="container mx-auto px-4 text-center">
             <h2 class="text-4xl font-extrabold text-gray-900 mb-6">
                 Transforming Challenges into Strategic Advantages
@@ -138,7 +159,7 @@
     </section>
 
     <!-- Services Section -->
-    <section id="services" class="py-16 md:py-24 bg-gray-50">
+    <section id="services" class="py-16 md:py-24 bg-gray-50 fade-in-section">
         <div class="container mx-auto px-4 text-center">
             <h2 class="text-4xl font-extrabold text-gray-900 mb-12 flex items-center justify-center">
                 <svg class="w-8 h-8 mr-3 text-blue-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-1.2-8.455-3.245M4.5 9.75l-1.5 1.5M4.5 14.25l-1.5-1.5M19.5 9.75l1.5 1.5M19.5 14.25l1.5-1.5M10 6v4a2 2 0 002 2h.5M14 10V6a2 2 0 00-2-2h-.5"></path></svg>
@@ -152,62 +173,62 @@
                 <div class="card p-6 text-left">
                     <h3 class="text-xl font-semibold text-gray-800 mb-3">Lean Process Transformation</h3>
                     <p class="text-gray-600 mb-4">Streamlining workflows, eliminating waste, and enhancing efficiency to boost productivity and reduce operational costs.</p>
-                    <div class="service-description-toggle hidden mt-2 text-sm text-gray-500">
+                    <div class="service-description-toggle hidden mt-2 text-sm text-gray-500" id="desc-lean-process">
                         Our Lean Process Transformation focuses on identifying and eliminating non-value-added activities, optimizing workflows, and implementing continuous improvement methodologies to enhance overall productivity and reduce operational costs significantly.
                     </div>
-                    <a href="javascript:void(0);" onclick="toggleServiceDescription(this)" class="text-blue-700 hover:underline font-medium">Learn More &rarr;</a>
+                    <a href="javascript:void(0);" onclick="toggleServiceDescription(this, 'desc-lean-process')" class="text-blue-700 hover:underline font-medium" aria-expanded="false" aria-controls="desc-lean-process">Learn More &rarr;</a>
                 </div>
                 <!-- Service 2: Strategic Quality Assurance & Compliance -->
                 <div class="card p-6 text-left">
                     <h3 class="text-xl font-semibold text-gray-800 mb-3">Strategic Quality Assurance & Compliance</h3>
                     <p class="text-gray-600 mb-4">Developing and integrating robust QMS frameworks (e.g., ISO standards) to ensure consistent quality and compliance.</p>
-                    <div class="service-description-toggle hidden mt-2 text-sm text-gray-500">
+                    <div class="service-description-toggle hidden mt-2 text-sm text-gray-500" id="desc-quality-assurance">
                         We help you establish and integrate robust Quality Management Systems (QMS) frameworks, including adherence to ISO standards, to ensure consistent product/service quality, mitigate risks, and maintain regulatory compliance across all operations.
                     </div>
-                    <a href="javascript:void(0);" onclick="toggleServiceDescription(this)" class="text-blue-700 hover:underline font-medium">Learn More &rarr;</a>
+                    <a href="javascript:void(0);" onclick="toggleServiceDescription(this, 'desc-quality-assurance')" class="text-blue-700 hover:underline font-medium" aria-expanded="false" aria-controls="desc-quality-assurance">Learn More &rarr;</a>
                 </div>
                 <!-- Service 3: End-to-End Supply Chain Efficiency -->
                 <div class="card p-6 text-left">
                     <h3 class="text-xl font-semibold text-gray-800 mb-3">End-to-End Supply Chain Efficiency</h3>
                     <p class="text-gray-600 mb-4">Optimizing supply chain processes for improved flow, reduced lead times, and enhanced cost-effectiveness from source to delivery.</p>
-                    <div class="service-description-toggle hidden mt-2 text-sm text-gray-500">
+                    <div class="service-description-toggle hidden mt-2 text-sm text-gray-500" id="desc-supply-chain">
                         Our expertise in supply chain optimization covers everything from sourcing and procurement to logistics and distribution. We streamline your entire supply chain to improve material flow, reduce lead times, and achieve significant cost savings.
                     </div>
-                    <a href="javascript:void(0);" onclick="toggleServiceDescription(this)" class="text-blue-700 hover:underline font-medium">Learn More &rarr;</a>
+                    <a href="javascript:void(0);" onclick="toggleServiceDescription(this, 'desc-supply-chain')" class="text-blue-700 hover:underline font-medium" aria-expanded="false" aria-controls="desc-supply-chain">Learn More &rarr;</a>
                 </div>
                 <!-- Service 4: Operational Digitalization & Automation -->
                 <div class="card p-6 text-left">
                     <h3 class="text-xl font-semibold text-gray-800 mb-3">Operational Digitalization & Automation</h3>
                     <p class="text-gray-600 mb-4">Guiding the adoption of cutting-edge technologies like automation, data analytics, and AI to revolutionize operational capabilities and drive innovation.</p>
-                    <div class="service-description-toggle hidden mt-2 text-sm text-gray-500">
+                    <div class="service-description-toggle hidden mt-2 text-sm text-gray-500" id="desc-digitalization">
                         We guide your business through the adoption of cutting-edge technologies, including process automation, advanced data analytics, and artificial intelligence, to revolutionize your operational capabilities and drive innovation.
                     </div>
-                    <a href="javascript:void(0);" onclick="toggleServiceDescription(this)" class="text-blue-700 hover:underline font-medium">Learn More &rarr;</a>
+                    <a href="javascript:void(0);" onclick="toggleServiceDescription(this, 'desc-digitalization')" class="text-blue-700 hover:underline font-medium" aria-expanded="false" aria-controls="desc-digitalization">Learn More &rarr;</a>
                 </div>
                 <!-- Service 5: Strategic Change Leadership -->
                 <div class="card p-6 text-left">
                     <h3 class="text-xl font-semibold text-gray-800 mb-3">Strategic Change Leadership</h3>
                     <p class="text-gray-600 mb-4">Structuring organizations for optimal performance and managing transitions smoothly to ensure successful adoption of new processes and strategies.</p>
-                    <div class="service-description-toggle hidden mt-2 text-sm text-gray-500">
+                    <div class="service-description-toggle hidden mt-2 text-sm text-gray-500" id="desc-change-leadership">
                         We assist in structuring your organization for optimal performance and provide expert guidance in managing transitions. Our approach ensures smooth adoption of new processes and strategies, fostering a resilient and adaptive workforce.
                     </div>
-                    <a href="javascript:void(0);" onclick="toggleServiceDescription(this)" class="text-blue-700 hover:underline font-medium">Learn More &rarr;</a>
+                    <a href="javascript:void(0);" onclick="toggleServiceDescription(this, 'desc-change-leadership')" class="text-blue-700 hover:underline font-medium" aria-expanded="false" aria-controls="desc-change-leadership">Learn More &rarr;</a>
                 </div>
                 <!-- Service 6: Profitability Enhancement Programs -->
                 <div class="card p-6 text-left">
                     <h3 class="text-xl font-semibold text-gray-800 mb-3">Profitability Enhancement Programs</h3>
                     <p class="text-gray-600 mb-4">Implementing strategic initiatives to identify and eliminate unnecessary expenditures while maximizing operational output and boosting your bottom line.</p>
-                    <div class="service-description-toggle hidden mt-2 text-sm text-gray-500">
+                    <div class="service-description-toggle hidden mt-2 text-sm text-gray-500" id="desc-profitability">
                         Our profitability enhancement programs focus on implementing strategic initiatives to identify and eliminate unnecessary expenditures, optimize resource allocation, and maximize operational output, directly boosting your bottom line.
                     </div>
-                    <a href="javascript:void(0);" onclick="toggleServiceDescription(this)" class="text-blue-700 hover:underline font-medium">Learn More &rarr;</a>
+                    <a href="javascript:void(0);" onclick="toggleServiceDescription(this, 'desc-profitability')" class="text-blue-700 hover:underline font-medium" aria-expanded="false" aria-controls="desc-profitability">Learn More &rarr;</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- About Us/Our Approach Section -->
-    <section id="about" class="py-16 md:py-24 bg-gray-100">
+    <!-- About Us Section -->
+    <section id="about" class="py-16 md:py-24 bg-gray-100 fade-in-section">
         <div class="container mx-auto px-4 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div class="order-2 lg:order-1">
                 <h2 class="text-4xl font-extrabold text-gray-900 mb-6 flex items-center">
@@ -243,14 +264,14 @@
                 </ul>
             </div>
             <div class="order-1 lg:order-2 flex justify-center">
-                <!-- Placeholder image for Reinhard Kolthoff -->
-                <img src="2025-05-30.jpg" alt="Reinhard Kolthoff" class="rounded-full shadow-lg w-64 h-64 md:w-80 md:h-80 object-cover">
+                <!-- Placeholder image for Reinhard Kolthoff with improved alt text -->
+                <img src="2025-05-30.jpg" alt="Portrait of Reinhard Kolthoff, founder of Kolthoff Consultancy" class="rounded-full shadow-lg w-64 h-64 md:w-80 md:h-80 object-cover">
             </div>
         </div>
     </section>
 
     <!-- Blog/Insights Section -->
-    <section id="insights" class="py-16 md:py-24 bg-white">
+    <section id="insights" class="py-16 md:py-24 bg-white fade-in-section">
         <div class="container mx-auto px-4 text-center">
             <h2 class="text-4xl font-extrabold text-gray-900 mb-12 flex items-center justify-center">
                 <svg class="w-8 h-8 mr-3 text-blue-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253m9 0c1.168-.776 2.754-1.253 4.5-1.253 1.746 0 3.332.477 4.5 1.253m-9 0V13.5a3.75 3.75 0 00-3.75 3.75H9.75v-2.25M12 12.75h3.75M12 12.75V15m3.75-2.25V15m1.5 0v-2.25m-1.5 0H18m-1.5 0H15"></path></svg>
@@ -268,12 +289,11 @@
                     <a href="https://reinhardkolthoff.github.io/german-business-engineering/" class="text-blue-700 hover:underline font-medium">Read More &rarr;</a>
                 </div>
             </div>
-            <!-- Removed the "View All Insights" button -->
         </div>
     </section>
 
     <!-- Call-to-Action (CTA) Section -->
-    <section id="contact" class="py-16 md:py-24 bg-gradient-to-r from-blue-700 to-indigo-900 text-white text-center">
+    <section id="contact" class="py-16 md:py-24 bg-gradient-to-r from-blue-700 to-indigo-900 text-white text-center fade-in-section">
         <div class="container mx-auto px-4">
             <h2 class="text-4xl font-extrabold leading-tight mb-6">
                 Ready to Transform Your Business?
@@ -281,12 +301,12 @@
             <p class="text-lg md:text-xl mb-8 max-w-3xl mx-auto">
                 Let's discuss how German Business Engineering can drive your sustainable growth and operational excellence. Get a free consultation today.
             </p>
-            <a href="#contact-form-section" class="btn-primary bg-white text-blue-700 hover:bg-gray-100">Get a Free Consultation</a>
+            <a href="#contact-form-section" class="btn-primary bg-white text-blue-700 hover:bg-gray-100" role="button">Get a Free Consultation</a>
         </div>
     </section>
 
     <!-- Contact Form Section -->
-    <section id="contact-form-section" class="py-16 md:py-24 bg-gray-100">
+    <section id="contact-form-section" class="py-16 md:py-24 bg-gray-100 fade-in-section">
         <div class="container mx-auto px-4 text-center">
             <h2 class="text-4xl font-extrabold text-gray-900 mb-12 flex items-center justify-center">
                 <svg class="w-8 h-8 mr-3 text-blue-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
@@ -300,21 +320,21 @@
                 <form id="contactForm" class="space-y-6">
                     <div>
                         <label for="name" class="block text-left text-sm font-medium text-gray-700 mb-1">Your Name</label>
-                        <input type="text" id="name" name="name" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="John Doe" required>
+                        <input type="text" id="name" name="name" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="John Doe" required aria-required="true">
                     </div>
                     <div>
                         <label for="email" class="block text-left text-sm font-medium text-gray-700 mb-1">Your Email</label>
-                        <input type="email" id="email" name="email" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="you@example.com" required>
+                        <input type="email" id="email" name="email" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="you@example.com" required aria-required="true">
                     </div>
                     <div>
                         <label for="message" class="block text-left text-sm font-medium text-gray-700 mb-1">Your Message</label>
-                        <textarea id="message" name="message" rows="5" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="Tell us about your operational challenges..." required></textarea>
+                        <textarea id="message" name="message" rows="5" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="Tell us about your operational challenges..." required aria-required="true"></textarea>
                     </div>
                     <div>
-                        <button type="submit" class="btn-primary w-full">Send Message</button>
+                        <button type="submit" class="btn-primary w-full" aria-label="Send Message">Send Message</button>
                     </div>
                 </form>
-                <div id="form-status-message" class="mt-4 text-center text-sm font-medium"></div>
+                <div id="form-status-message" role="status" aria-live="polite" class="mt-4 text-center text-sm font-medium"></div>
                 <div class="mt-8 text-center text-gray-700">
                     <p class="mb-2">Or connect directly:</p>
                     <p class="font-semibold text-lg">+63 927 960 8982</p>
@@ -330,8 +350,8 @@
         <div class="container mx-auto px-4 text-center">
             <p>&copy; 2025 Kolthoff Consultancy. All rights reserved.</p>
             <div class="flex justify-center space-x-6 mt-4">
-                <a href="javascript:void(0);" class="text-gray-400 hover:text-white">LinkedIn</a>
-                <a href="javascript:void(0);" class="text-gray-400 hover:text-white">Facebook</a>
+                <a href="javascript:void(0);" class="text-gray-400 hover:text-white" aria-label="LinkedIn Profile">LinkedIn</a>
+                <a href="javascript:void(0);" class="text-gray-400 hover:text-white" aria-label="Facebook Profile">Facebook</a>
             </div>
             <div class="mt-4 text-sm text-gray-400">
                 <a href="javascript:void(0);" class="hover:underline mx-2">Privacy Policy</a> |
@@ -344,35 +364,41 @@
         // JavaScript for mobile menu toggle
         document.getElementById('mobile-menu-button').addEventListener('click', function() {
             document.getElementById('mobile-menu').classList.remove('hidden');
+            this.setAttribute('aria-expanded', 'true');
         });
 
         document.getElementById('close-mobile-menu').addEventListener('click', function() {
             document.getElementById('mobile-menu').classList.add('hidden');
+            document.getElementById('mobile-menu-button').setAttribute('aria-expanded', 'false');
         });
 
         // Close mobile menu when a link is clicked
         document.querySelectorAll('#mobile-menu a').forEach(item => {
             item.addEventListener('click', () => {
                 document.getElementById('mobile-menu').classList.add('hidden');
+                document.getElementById('mobile-menu-button').setAttribute('aria-expanded', 'false');
             });
         });
 
         // Function to toggle service description visibility
-        function toggleServiceDescription(linkElement) {
-            const parentCard = linkElement.closest('.card');
-            const descriptionDiv = parentCard.querySelector('.service-description-toggle');
+        function toggleServiceDescription(linkElement, descriptionId) {
+            const descriptionDiv = document.getElementById(descriptionId);
+            const isExpanded = linkElement.getAttribute('aria-expanded') === 'true';
+
             if (descriptionDiv) {
                 descriptionDiv.classList.toggle('hidden');
+                linkElement.setAttribute('aria-expanded', !isExpanded);
             }
         }
 
-        // JavaScript for form submission handling
+        // JavaScript for form submission handling (simulated backend)
         document.getElementById('contactForm').addEventListener('submit', function(event) {
             event.preventDefault(); // Prevent default form submission
 
             const formStatusMessage = document.getElementById('form-status-message');
-            formStatusMessage.textContent = ''; // Clear previous messages
+            formStatusMessage.textContent = 'Sending your message...';
             formStatusMessage.classList.remove('text-green-600', 'text-red-600');
+            formStatusMessage.classList.add('text-gray-500'); // Indicate sending state
 
             const name = document.getElementById('name').value;
             const email = document.getElementById('email').value;
@@ -381,19 +407,71 @@
             // Basic validation
             if (!name || !email || !message) {
                 formStatusMessage.textContent = 'Please fill in all fields.';
+                formStatusMessage.classList.remove('text-gray-500');
                 formStatusMessage.classList.add('text-red-600');
                 return;
             }
 
-            // Simulate form submission
-            console.log('Form submitted:', { name, email, message });
-
-            // For this example, we'll just show a success message after a delay
+            // Simulate network request delay
             setTimeout(() => {
+                // In a real application, you would send this data to a server using fetch() or XMLHttpRequest
+                // Example of a placeholder fetch:
+                /*
+                fetch('/api/contact', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ name, email, message }),
+                })
+                .then(response => {
+                    if (response.ok) {
+                        formStatusMessage.textContent = 'Thank you for your message! We will get back to you soon.';
+                        formStatusMessage.classList.remove('text-gray-500', 'text-red-600');
+                        formStatusMessage.classList.add('text-green-600');
+                        document.getElementById('contactForm').reset(); // Clear the form
+                    } else {
+                        formStatusMessage.textContent = 'There was an error sending your message. Please try again.';
+                        formStatusMessage.classList.remove('text-gray-500', 'text-green-600');
+                        formStatusMessage.classList.add('text-red-600');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    formStatusMessage.textContent = 'There was an error sending your message. Please check your network connection.';
+                    formStatusMessage.classList.remove('text-gray-500', 'text-green-600');
+                    formStatusMessage.classList.add('text-red-600');
+                });
+                */
+
+                // For this example, we'll just show a success message after a delay
                 formStatusMessage.textContent = 'Thank you for your message! We will get back to you soon.';
+                formStatusMessage.classList.remove('text-gray-500', 'text-red-600');
                 formStatusMessage.classList.add('text-green-600');
                 document.getElementById('contactForm').reset(); // Clear the form
-            }, 1000);
+            }, 1500); // Simulate 1.5 seconds delay
+        });
+
+        // Intersection Observer for fade-in animations
+        const fadeSections = document.querySelectorAll('.fade-in-section');
+
+        const observerOptions = {
+            root: null, // viewport
+            rootMargin: '0px',
+            threshold: 0.1 // 10% of the section must be visible
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target); // Stop observing once visible
+                }
+            });
+        }, observerOptions);
+
+        fadeSections.forEach(section => {
+            observer.observe(section);
         });
     </script>
 </body>
